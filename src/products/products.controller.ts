@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param } from "@nestjs/common";
+import { Controller, Post, Body, Get, Param, Patch } from "@nestjs/common";
 import { ProductsService } from "./products.service";
 @Controller('products')//filter with requests that start with /products
 
@@ -18,7 +18,17 @@ export class ProductsController {
         return this.productsService.getProducts();
     }
     @Get(':id')
-    GetProduct(@Param('id') prodId: string) {
+    getProduct(@Param('id') prodId: string) {
         return this.productsService.getSingleProduct(prodId);
+    }
+    @Patch(':id')
+    updateProduct(
+        @Param('id') prodId: string,
+        @Body('title') prodTitle: string,
+        @Body('description') prodDesc: string,
+        @Body('price') prodPrice: number,
+    ) {
+        this.productsService.updateProduct(prodId, prodTitle, prodDesc, prodPrice);
+        return null;
     }
 }

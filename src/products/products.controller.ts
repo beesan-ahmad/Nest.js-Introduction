@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from "@nestjs/common";
+import { Controller, Post, Body, Get } from "@nestjs/common";
 import { ProductsService } from "./products.service";
 @Controller('products')//filter with requests that start with /products
 
@@ -12,5 +12,9 @@ export class ProductsController {
     ) {
         const generatedId = this.productsService.insertProduct(prodTitle, prodDescription, prodPrice);
         return { id: generatedId };
+    }
+    @Get()
+    getAllProducts(){
+        return this.productsService.getProducts();
     }
 }

@@ -1,15 +1,24 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { Product } from "./product.model";
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 @Injectable()
 export class ProductsService {
-
     private products: Product[] = [];
-    insertProduct(title: string, description: string, price: number) {
-        const prodId = Math.random().toString();
-        const newProduct = new Product(prodId, title, description, price);
-        this.products.push(newProduct);
-        return prodId;
-    }
+    constructor(
+        @InjectModel('Product') private readonly productModel: Model<Product>,
+      ) {}
+
+      async insertProduct(title: string, description: string, price: number) {
+        const newProduct = new this.productModel({
+          title,
+          description,
+          price,
+        });
+        const result = await newProduct.save();
+        console.log(result);
+        return 'prodId';
+      }
     getProducts() {
         return [...this.products];//make a copy of the array by spread operator or I can use .slice()
     }

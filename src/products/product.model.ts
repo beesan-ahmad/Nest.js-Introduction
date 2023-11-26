@@ -5,11 +5,10 @@ export const productSchema = new mongoose.Schema({
     description: {type: String, required: true},
     price: {type: Number, required: true},
 });
-export class Product {
+export interface Product {
 
-    constructor(
-        public id: string,
-        public title: string,
-        public description: string,
-        public price: number) { }
+         id: string;
+         title: string;
+         description: string;
+         price: number; 
 }
